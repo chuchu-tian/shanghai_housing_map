@@ -49,7 +49,7 @@ shanghai-map/
 │       ├── review_beike.py     # 评价口碑 ← 贝壳点评【第一批】
 │       ├── developer.py        # 开发商信息【第二批】
 │       └── school.py           # 对口学校（仅供参考）【第二批】
-└── docs/                   # 数据结构与更新流程文档（项目完成后交付）
+└── docs/                   # 交付文档：使用手册（USAGE）+ 开发扩展指南（DEVELOPING）
 ```
 
 ## 数据结构
@@ -325,4 +325,6 @@ REVIEW_SOURCES = [review_beike, review_anjuke]                 # 评价多源
   - 第一批：官方成交价 + 贝壳评价
   - 第二批：成交价备用源（fallback）+ 开发商 + 对口学校（仅供参考）+ 更多评价源
   - 两种多源模式：独占字段按优先级 fallback 取一；汇总字段（评价）全抓合并去重
-- 数据结构、更新流程、插拔指南、iCloud 同步说明文档
+- 交付文档，拆成两份（面向不同读者）：
+  - **《使用手册》(`docs/USAGE.md`)** — 给日常使用者（含闺蜜），**不涉及代码**：如何启动（双击 `start.command`）、收藏与取消、切换身份/改名、更新数据（双击 `update-data.command` 看摘要）、iCloud 跨设备同步配置。
+  - **《开发/扩展指南》(`docs/DEVELOPING.md`)** — 给会写代码的人：`housing.json`/`profiles.json` 数据结构、多源可插拔架构、如何新增独占字段/备用源(fallback)/评价源（插拔指南三种场景）。
