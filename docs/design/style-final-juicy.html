@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>最终确认 · 清新果汁 vs 简约北欧</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Outfit:wght@500;600;700;800&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#0d0d0f;overflow:hidden;font-family:"Noto Sans SC",sans-serif}
+  .bar{position:fixed;top:0;left:0;right:0;height:46px;z-index:50;background:#141416;border-bottom:1px solid #26262b;
+    display:flex;align-items:center;padding:0 18px;color:#fff;font-size:13px;font-weight:700;gap:10px}
+  .bar .hint{margin-left:auto;color:#7a7f88;font-size:11px;font-weight:400}
+  .wrap{position:fixed;top:46px;left:0;right:0;bottom:0;display:grid;grid-template-rows:1fr 1fr}
+  .demo{position:relative;display:grid;grid-template-columns:1fr 340px;border-bottom:2px solid #000;overflow:hidden}
+  .name{position:absolute;top:10px;left:14px;z-index:30;font-size:11px;font-weight:800;letter-spacing:1px;
+    padding:5px 12px;border-radius:999px}
+  .map{position:relative;overflow:hidden}
+  .ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .ring{fill:none;stroke-dasharray:6 6}
+  .blob{position:absolute;cursor:pointer;transition:all .22s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center}
+  .filterbar{position:absolute;bottom:14px;left:14px;display:flex;gap:6px}
+  .filterbar button{border:none;font-size:11px;padding:6px 12px;border-radius:999px;cursor:pointer;font-weight:700}
+  .panel{padding:16px 18px;overflow:hidden}
+  .p-block{display:flex;align-items:baseline;gap:7px}
+  .p-name{font-size:22px;font-weight:800}.p-star{font-size:17px}
+  .p-sub{font-size:11px;margin-top:3px;font-weight:600}
+  .price-row{display:flex;gap:10px;margin-top:12px}
+  .price-box{flex:1;border-radius:12px;padding:10px}
+  .price-box .lbl{font-size:9px;font-weight:700}.price-box .val{font-size:19px;font-weight:800;margin-top:3px}
+  .clist{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:14px}
+  .clist li{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:9px 11px;border-radius:11px;gap:8px;font-weight:600}
+  .clist li .rt{white-space:nowrap;font-size:11px;opacity:.85}
+  .badge{font-size:9px;padding:2px 8px;border-radius:999px;font-weight:800}
+
+  /* ===== 清新果汁：绿板 + 珊瑚红三环 + 柠檬黄悬停 ===== */
+  .J1{font-family:"Baloo 2","Noto Sans SC"}
+  .J1 .map{background:linear-gradient(150deg,#fbfefc,#f2fbf6)}
+  .J1 .name{background:#12b886;color:#fff}
+  .J1 .r-in{stroke:#e8590c;stroke-width:3}
+  .J1 .r-mid{stroke:#ff922b;stroke-width:2.5;opacity:.8}
+  .J1 .r-out{stroke:#ffd8a8;stroke-width:2;opacity:.9}
+  .J1 .blob{background:#fff;border:2.5px solid #b2ecd0;border-radius:16px;box-shadow:0 5px 0 #cbeedd}
+  .J1 .blob .bl{font-weight:700;color:#0f9d6f;font-size:13px}
+  .J1 .blob:hover{background:#ffd43b;border-color:#ffd43b;transform:translateY(-4px) scale(1.05);box-shadow:0 9px 0 #fab005}
+  .J1 .blob:hover .bl{color:#664d03}
+  .J1 .district{font-size:14px;fill:#a9d9c3;font-weight:700}
+  .J1 .filterbar button{background:#fff;color:#0f9d6f;box-shadow:0 3px 0 #cbeedd}
+  .J1 .filterbar button.on{background:#12b886;color:#fff;box-shadow:0 3px 0 #0c8f6b}
+  .J1 .panel{background:#fff;color:#20323a}
+  .J1 .p-name{color:#0f9d6f}.J1 .p-star{color:#ff922b}.J1 .p-sub{color:#7cc9a5}
+  .J1 .price-box{background:#eefaf3}.J1 .price-box.new{background:#fff3e8}
+  .J1 .price-box .lbl{color:#6abf99}.J1 .price-box.new .lbl{color:#f0851f}
+  .J1 .price-box .val{color:#0f9d6f}.J1 .price-box.new .val{color:#e8590c}
+  .J1 .clist li{background:#f4fbf7}
+  .J1 .badge.resale{background:#12b886;color:#fff}.J1 .badge.new{background:#ff922b;color:#fff}
+
+  /* ===== 简约北欧：米白 + 橘蓝 ===== */
+  .J4{font-family:"Outfit","Noto Sans SC"}
+  .J4 .map{background:#f7f6f2}
+  .J4 .name{background:#ff5a1f;color:#fff}
+  .J4 .ring{stroke:#dedbd2;stroke-width:1.5;stroke-dasharray:2 6}
+  .J4 .blob{background:#fff;border:2px solid #e6e3da;border-radius:12px}
+  .J4 .blob .bl{font-weight:700;color:#33312b;font-size:13px}
+  .J4 .blob:hover{background:#2563eb;border-color:#2563eb;transform:scale(1.04);box-shadow:0 8px 20px rgba(37,99,235,.3)}
+  .J4 .blob:hover .bl{color:#fff}
+  .J4 .district{font-size:14px;fill:#c2beb2;font-weight:700}
+  .J4 .filterbar button{background:#fff;color:#33312b;border:1.5px solid #e6e3da}
+  .J4 .filterbar button.on{background:#111;color:#fff}
+  .J4 .panel{background:#fff;color:#26251f;border-left:1px solid #eeece5}
+  .J4 .p-name{color:#111}.J4 .p-star{color:#ff5a1f}.J4 .p-sub{color:#a8a498}
+  .J4 .price-box{background:#f7f6f2}
+  .J4 .price-box .lbl{color:#a8a498}
+  .J4 .price-box.resale .val{color:#2563eb}.J4 .price-box.new .val{color:#ff5a1f}
+  .J4 .clist li{background:#f7f6f2}
+  .J4 .badge.resale{background:#2563eb;color:#fff}.J4 .badge.new{background:#ff5a1f;color:#fff}
+</style>
+</head>
+<body>
+  <div class="bar">最终两版对比 · 上下排列 <span class="hint">鼠标移到板块上看各自悬停效果</span></div>
+  <div class="wrap" id="wrap"></div>
+<script>
+const RING=`<svg class="ring-svg" viewBox="0 0 900 620" preserveAspectRatio="xMidYMid meet">
+  <ellipse class="ring r-out" cx="440" cy="310" rx="360" ry="250"/>
+  <ellipse class="ring r-mid" cx="440" cy="310" rx="225" ry="156"/>
+  <ellipse class="ring r-in" cx="440" cy="310" rx="110" ry="76"/>
+  <text class="district" x="440" y="90" text-anchor="middle">浦东</text>
+  <text class="district" x="180" y="320" text-anchor="middle">徐汇</text>
+  <text class="district" x="690" y="340" text-anchor="middle">静安</text></svg>`;
+const B=[{n:"联洋",x:"46%",y:"32%",w:"135px",h:"78px"},{n:"古北",x:"27%",y:"44%",w:"120px",h:"70px"},
+  {n:"碧云",x:"60%",y:"48%",w:"126px",h:"74px"},{n:"花木",x:"42%",y:"62%",w:"116px",h:"68px"}];
+const blobs=B.map(b=>`<div class="blob" style="left:${b.x};top:${b.y};width:${b.w};height:${b.h}"><span class="bl">${b.n}</span></div>`).join("");
+function panel(){return `
+  <div class="p-block"><span class="p-name">联洋</span><span class="p-star">★</span></div>
+  <div class="p-sub">PUDONG · 中环内 · 学区成熟</div>
+  <div class="price-row">
+    <div class="price-box resale"><div class="lbl">二手成交均价</div><div class="val">7.8万</div></div>
+    <div class="price-box new"><div class="lbl">新房均价</div><div class="val">9.5万</div></div></div>
+  <ul class="clist">
+    <li><span>★ 仁恒森兰雅苑 <span class="badge resale">二手</span></span><span class="rt">8.2万·16年</span></li>
+    <li><span>森兰名轩 <span class="badge new">新房</span></span><span class="rt">9.6万·2027</span></li>
+    <li><span>联洋花园 <span class="badge resale">二手</span></span><span class="rt">7.5万·19年</span></li>
+  </ul>`;}
+const names={J1:"清新果汁 · 珊瑚红三环 + 柠檬黄悬停",J4:"简约北欧 · 橘蓝"};
+document.getElementById("wrap").innerHTML=["J1","J4"].map(s=>`
+  <div class="demo ${s}">
+    <div class="map"><div class="name">${names[s]}</div>${RING}${blobs}
+      <div class="filterbar"><button class="on">全部</button><button>新房</button><button>二手</button></div></div>
+    <div class="panel">${panel()}</div></div>`).join("");
+</script>
+</body>
+</html>
