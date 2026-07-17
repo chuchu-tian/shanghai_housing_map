@@ -7,7 +7,9 @@
         "苏河湾",
         "中山公园"
       ],
-      "communities": []
+      "communities": [
+        "华侨城苏河湾"
+      ]
     },
     {
       "id": "user2",
@@ -18,6 +20,8 @@
       "communities": []
     }
   ],
-  "active": "user1",
-  "published": []
+  "active": "user2",
+  "published": [
+    "古北"
+  ]
 }

@@ -48,8 +48,16 @@ export function renderPanel(name, data, rerender){
     </div>
     ${data.pros?`<div class="tags pros">优点：${data.pros.join(" · ")}</div>`:""}
     ${data.cons?`<div class="tags cons">缺点：${data.cons.join(" · ")}</div>`:""}
-    <ul class="clist">${(data.communities||[]).map(li).join("")}</ul>`;
+    <ul class="clist">${sortedCommunities(data.communities).map(li).join("")}</ul>`;
   bindStars(rerender);
+}
+
+// 收藏的小区置顶，其余保持原顺序
+function sortedCommunities(list){
+  if(!list) return [];
+  const fav = list.filter(c=>isFav("community", c.name));
+  const rest = list.filter(c=>!isFav("community", c.name));
+  return [...fav, ...rest];
 }
 
 function bindStars(rerender){

@@ -29,6 +29,7 @@ export function togglePublish(name){
   return save();
 }
 export function isPublished(name){ return (state.published||[]).includes(name); }
+export function setPublished(names){ state.published = [...names]; return save(); }
 async function save(){
   await fetch("/api/profiles", {
     method:"POST", headers:{"Content-Type":"application/json"},

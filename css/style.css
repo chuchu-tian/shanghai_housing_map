@@ -19,6 +19,20 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .starbtn{cursor:pointer;color:#dfe6e2;font-size:16px;background:none;border:none;padding:0 2px;line-height:1}
 .starbtn.on{color:#ff922b}
 .clist li.fav{border-left:3px solid #ff922b}
+/* 顶栏发布按钮 */
+#publishBtn{border:none;background:#eefaf3;color:#0f9d6f;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-family:inherit;font-size:12px}
+/* 发布管理弹窗 */
+#publishModal{position:fixed;inset:0;background:rgba(20,40,35,.35);display:flex;align-items:center;justify-content:center;z-index:1000}
+#publishModal.modal-hidden{display:none}
+.modal-card{background:#fff;border-radius:18px;padding:22px 24px;width:320px;max-height:70vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800;color:#0f9d6f}
+.modal-head button{border:none;background:none;font-size:16px;cursor:pointer;color:#a9b0aa}
+.modal-hint{font-size:11px;color:#a9b0aa;font-weight:600;margin:8px 0 14px;line-height:1.5}
+.modal-actions{display:flex;gap:8px;margin-bottom:12px}
+.modal-actions button{border:1px solid #d6f0e2;background:#f4fbf7;color:#0f9d6f;border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:700;font-family:inherit;font-size:12px}
+#publishList{list-style:none;display:flex;flex-direction:column;gap:8px}
+#publishList li label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#20323a;cursor:pointer;padding:6px 8px;border-radius:8px}
+#publishList li label:hover{background:#f4fbf7}
 /* 行政区标签 */
 .district-label{background:none;border:none;box-shadow:none;color:#a9d9c3;font-weight:700;font-size:13px;white-space:nowrap}
 /* 板块标签 */

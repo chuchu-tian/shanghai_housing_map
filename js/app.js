@@ -4,6 +4,7 @@ import { loadAll, blockData } from "./data.js";
 import { renderPanel, filterPanelList, currentBlockName, clearPanel } from "./panel.js";
 import { initFilter, getFilter } from "./filter.js";
 import { loadProfiles, getState, activeProfile, switchProfile, renameProfile } from "./favorites.js";
+import { initPublishManager } from "./publish.js";
 
 let HOUSING = null;
 let favOnly = false;
@@ -55,6 +56,7 @@ async function main(){
     };
 
     markFavBlocks(activeProfile().blocks, favOnly);
+    initPublishManager(blocks.features.map(f=>f.properties.name));
     window.__housing = housing;
   }catch(e){ console.error(e); alert("数据加载失败，请用本地服务器打开（server.py）"); }
 }

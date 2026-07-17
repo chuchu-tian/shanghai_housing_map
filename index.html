@@ -25,12 +25,28 @@
       <header id="topbar">
         <select id="profileSelect"></select>
         <button id="renameBtn" title="给当前身份改名">✎</button>
+        <button id="publishBtn" title="批量选择要发布到云端的板块">☁ 发布</button>
         <label id="favOnly"><input type="checkbox"> 只看收藏</label>
       </header>
       <div id="panel-body">
         <div class="panel-placeholder">点击地图上的板块查看详情</div>
       </div>
     </aside>
+  </div>
+  <div id="publishModal" class="modal-hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>发布到云端的板块</span>
+        <button id="publishClose">✕</button>
+      </div>
+      <div class="modal-hint">勾选要公开给家人的板块（第二阶段上云后生效）。</div>
+      <div class="modal-actions">
+        <button id="pubSelectAll">全选</button>
+        <button id="pubClearAll">全不选</button>
+        <button id="pubFromFav">勾选所有收藏</button>
+      </div>
+      <ul id="publishList"></ul>
+    </div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="js/app.js"></script>
