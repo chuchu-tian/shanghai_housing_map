@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>方案 C · 精致轻奢（中性 + 彩色点缀）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"Sora","Noto Sans SC",sans-serif;overflow:hidden}
+
+  /* —— C：中性底（白 / 浅灰 / 深墨蓝 / 金），彩色仅作小面积点缀 —— */
+  :root{
+    --ink:#1a2b3c;        /* 深墨蓝：主文字/悬停 */
+    --gold:#c08a3e;       /* 金：主点缀 */
+    --teal:#2a9d8f;       /* 青：二手标记点缀 */
+    --coral:#e76f51;      /* 珊瑚：新房/强调点缀 */
+    --line:#e8ebee;
+    --muted:#8a95a1;
+  }
+  .screen{position:fixed;inset:0;display:grid;grid-template-columns:1fr 380px}
+  .map{position:relative;overflow:hidden;background:linear-gradient(160deg,#eef1f4,#e3e8ed)}
+  .ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .ring{stroke:#c3ccd6;stroke-dasharray:1 6;stroke-width:1.5;fill:none}
+  .district{font-family:"Sora";font-size:16px;fill:#aeb8c4;font-weight:700}
+  .blob{position:absolute;cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;
+    border:1px solid #c3ccd6;background:rgba(255,255,255,.6);border-radius:10px}
+  /* 中性底：板块本身是白/灰，只用一条彩色左边线/圆点做环线区分点缀 */
+  .blob::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--gold)}
+  .blob.mid::before{background:var(--teal)}
+  .blob.out::before{background:var(--muted)}
+  .blob:hover{background:var(--ink);border-color:var(--ink);transform:scale(1.05);box-shadow:0 16px 40px rgba(26,43,60,.28)}
+  .blob:hover .bl{color:#f3d9a0}
+  .bl{font-family:"Sora";font-size:13px;color:#3f5560;font-weight:600}
+  .styletag{position:absolute;top:20px;left:24px;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    font-weight:700;padding:7px 15px;border-radius:999px;background:var(--ink);color:#f3d9a0}
+  .filterbar{position:absolute;bottom:24px;left:24px;display:flex;gap:7px}
+  .filterbar button{border:1px solid #d3dade;background:#fff;color:#4a5a6a;font-size:12px;font-weight:600;
+    padding:8px 15px;border-radius:9px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.05);font-family:"Sora"}
+  .filterbar button.on{background:var(--ink);color:#f3d9a0;border-color:var(--ink)}
+
+  .panel{padding:34px 28px;overflow-y:auto;background:#fff;color:#233b40;border-left:1px solid var(--line)}
+  .p-block{display:flex;align-items:baseline;gap:8px}
+  .p-name{font-family:"Sora";font-size:27px;font-weight:700;color:var(--ink)}
+  .p-star{color:var(--gold);font-size:20px}
+  .p-sub{font-family:"Sora";color:var(--muted);font-size:12px;margin-top:5px;letter-spacing:.5px}
+  .p-sub b{color:var(--gold);font-weight:600}
+  .price-row{display:flex;gap:14px;margin-top:20px}
+  .price-box{flex:1;border-radius:12px;padding:14px;background:#f7f9fa;border:1px solid var(--line)}
+  /* 价格卡：底仍中性，只用一条顶部细彩条 + 数字颜色点缀区分两类 */
+  .price-box{position:relative;overflow:hidden}
+  .price-box::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .price-box.resale::before{background:var(--teal)}
+  .price-box.new::before{background:var(--gold)}
+  .price-box .lbl{font-size:10px;letter-spacing:1px;color:var(--muted)}
+  .price-box .val{font-family:"Sora";font-size:23px;font-weight:700;margin-top:6px;color:var(--ink)}
+  .clist{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:22px}
+  .clist li{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:12px 14px;
+    border-radius:11px;gap:10px;background:#f7f9fa;border:1px solid #eef1f3}
+  .clist li .rt{white-space:nowrap;font-size:12px;color:var(--muted)}
+  /* 收藏项：金色左描边点缀 */
+  .clist li.fav{border-left:3px solid var(--gold)}
+  .badge{font-size:10px;padding:3px 7px;border-radius:6px;font-weight:700;letter-spacing:.5px}
+  .badge.resale{background:rgba(42,157,143,.14);color:#1d7d70}   /* 二手：青，浅底不刺眼 */
+  .badge.new{background:rgba(192,138,62,.16);color:#a06f2c}       /* 新房：金 */
+  .desc{margin-top:24px;font-size:12px;line-height:1.7;padding-top:16px;border-top:1px solid var(--line);color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="screen">
+    <div class="map">
+      <div class="styletag">方案 C · 精致轻奢</div>
+      <svg class="ring-svg" viewBox="0 0 900 700" preserveAspectRatio="xMidYMid meet">
+        <ellipse class="ring" cx="440" cy="350" rx="360" ry="280"/>
+        <ellipse class="ring" cx="440" cy="350" rx="225" ry="175"/>
+        <ellipse class="ring" cx="440" cy="350" rx="110" ry="86"/>
+        <text class="district" x="440" y="110" text-anchor="middle">浦东</text>
+        <text class="district" x="180" y="360" text-anchor="middle">徐汇</text>
+        <text class="district" x="680" y="380" text-anchor="middle">静安</text>
+      </svg>
+      <div class="blob"      style="left:46%;top:36%;width:150px;height:92px"><span class="bl">联洋</span></div>
+      <div class="blob mid"  style="left:27%;top:46%;width:135px;height:84px"><span class="bl">古北</span></div>
+      <div class="blob mid"  style="left:60%;top:50%;width:140px;height:88px"><span class="bl">碧云</span></div>
+      <div class="blob out"  style="left:42%;top:62%;width:130px;height:80px"><span class="bl">花木</span></div>
+      <div class="filterbar"><button class="on">全部</button><button>只看新房</button><button>只看二手</button></div>
+    </div>
+    <div class="panel">
+      <div class="p-block"><span class="p-name">联洋</span><span class="p-star">★</span></div>
+      <div class="p-sub">PUDONG · 中环内 · <b>学区成熟</b></div>
+      <div class="price-row">
+        <div class="price-box resale"><div class="lbl">二手成交均价</div><div class="val">7.8万</div></div>
+        <div class="price-box new"><div class="lbl">新房均价</div><div class="val">9.5万</div></div>
+      </div>
+      <ul class="clist">
+        <li class="fav"><span>★ 仁恒森兰雅苑 <span class="badge resale">二手</span></span><span class="rt">8.2万 · 房龄16年</span></li>
+        <li><span>森兰名轩 <span class="badge new">新房</span></span><span class="rt">9.6万 · 2027交付</span></li>
+        <li><span>联洋花园 <span class="badge resale">二手</span></span><span class="rt">7.5万 · 房龄19年</span></li>
+        <li><span>仁恒森兰海棠 <span class="badge new">新房</span></span><span class="rt">9.4万 · 2026交付</span></li>
+      </ul>
+      <div class="desc">中性高级底（白 / 浅灰 / 深墨蓝 / 金），彩色仅作小面积点缀：二手=青、新房=金、收藏=金左描边、板块环线=细彩条。整体仍是原来的冷静轻奢感，不会“绿绿的”。</div>
+    </div>
+  </div>
+</body>
+</html>
