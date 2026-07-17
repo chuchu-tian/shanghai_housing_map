@@ -10,3 +10,25 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .district-label{background:none;border:none;box-shadow:none;color:#a9d9c3;font-weight:700;font-size:13px;white-space:nowrap}
 /* 板块标签 */
 .block-label{background:none;border:none;box-shadow:none;color:#0f9d6f;font-weight:700;font-size:13px;white-space:nowrap}
+
+/* 面板内容（果汁风格）*/
+.p-block{display:flex;align-items:baseline;gap:8px}
+.p-name{font-size:28px;font-weight:800;color:#0f9d6f}
+.p-sub{font-size:12px;margin-top:6px;font-weight:600;color:#7cc9a5}
+.price-row{display:flex;gap:13px;margin-top:20px}
+.price-box{flex:1;border-radius:16px;padding:15px;background:#eefaf3}
+.price-box.new{background:#fff3e8}
+.price-box .lbl{font-size:10px;font-weight:700;color:#6abf99}
+.price-box.new .lbl{color:#f0851f}
+.price-box .val{font-size:24px;font-weight:800;margin-top:5px;color:#0f9d6f}
+.price-box.new .val{color:#e8590c}
+.tags{margin-top:14px;font-size:12px;font-weight:600;line-height:1.6}
+.tags.pros{color:#0f9d6f}
+.tags.cons{color:#e8863c}
+.clist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.clist li{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:12px 14px;border-radius:14px;gap:10px;font-weight:600;background:#f4fbf7}
+.clist li .rt{white-space:nowrap;font-size:12px;font-weight:600;opacity:.85}
+.clist li.hidden{display:none}
+.badge{font-size:10px;padding:3px 9px;border-radius:999px;font-weight:800}
+.badge.resale{background:#12b886;color:#fff}
+.badge.new{background:#ff922b;color:#fff}

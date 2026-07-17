@@ -1,0 +1,37 @@
+{
+  "updated_at": "2026-07-17",
+  "blocks": {
+    "古北": {
+      "resale_avg_price": 85000, "new_avg_price": null,
+      "pros": ["涉外成熟社区","配套齐全","黄金城道商业街"],
+      "cons": ["房龄偏老","单价高","车位紧张"],
+      "communities": [
+        { "name":"古北中央花园","property_type":"resale","avg_price":91000,"last_deal":"2026-06","built_year":2004 },
+        { "name":"黄金城道","property_type":"resale","avg_price":88000,"last_deal":"2026-05","built_year":2006 }
+      ]
+    },
+    "苏河湾": {
+      "resale_avg_price": 110000, "new_avg_price": 130000,
+      "pros":["近市中心","滨河景观","新盘多"], "cons":["单价很高"],
+      "communities":[
+        { "name":"苏河湾中心","property_type":"new","list_price":132000,"built_year":2026 },
+        { "name":"华侨城苏河湾","property_type":"resale","avg_price":108000,"last_deal":"2026-04","built_year":2018 }
+      ]
+    },
+    "中山公园": {
+      "resale_avg_price": 92000, "new_avg_price": null,
+      "pros":["交通枢纽","商业成熟"], "cons":["老小区多"],
+      "communities":[
+        { "name":"兆丰花园","property_type":"resale","avg_price":95000,"last_deal":"2026-06","built_year":2001 }
+      ]
+    },
+    "长征": {
+      "resale_avg_price": 62000, "new_avg_price": 68000,
+      "pros":["性价比高","有新盘"], "cons":["离市中心较远"],
+      "communities":[
+        { "name":"长征某新盘","property_type":"new","list_price":68000,"built_year":2027 },
+        { "name":"长征某二手","property_type":"resale","avg_price":61000,"last_deal":"2026-05","built_year":2012 }
+      ]
+    }
+  }
+}

@@ -6,3 +6,10 @@ export async function loadJSON(path){
   return r.json();
 }
 export async function loadDistricts(){ return loadJSON(DATA.districts); }
+export async function loadAll(){
+  const [districts, rings, blocks, housing] = await Promise.all([
+    loadJSON(DATA.districts), loadJSON(DATA.rings), loadJSON(DATA.blocks), loadJSON(DATA.housing),
+  ]);
+  return { districts, rings, blocks, housing };
+}
+export function blockData(housing, name){ return housing.blocks[name] || null; }
