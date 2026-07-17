@@ -22,7 +22,14 @@
       </div>
     </div>
     <aside id="panel" class="empty">
-      <div class="panel-placeholder">点击地图上的板块查看详情</div>
+      <header id="topbar">
+        <select id="profileSelect"></select>
+        <button id="renameBtn" title="给当前身份改名">✎</button>
+        <label id="favOnly"><input type="checkbox"> 只看收藏</label>
+      </header>
+      <div id="panel-body">
+        <div class="panel-placeholder">点击地图上的板块查看详情</div>
+      </div>
     </aside>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

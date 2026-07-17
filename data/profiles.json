@@ -1,0 +1,23 @@
+{
+  "profiles": [
+    {
+      "id": "user1",
+      "name": "Chuchu",
+      "blocks": [
+        "苏河湾",
+        "中山公园"
+      ],
+      "communities": []
+    },
+    {
+      "id": "user2",
+      "name": "Mia",
+      "blocks": [
+        "古北"
+      ],
+      "communities": []
+    }
+  ],
+  "active": "user1",
+  "published": []
+}

@@ -49,14 +49,19 @@ export function renderRings(geo){
 const BLOCK_NORMAL = { color:"#b2ecd0", weight:2.5, fillColor:"#ffffff", fillOpacity:0.9 };
 const BLOCK_DISABLED = { color:"#d0d3cf", weight:2, fillColor:"#e9ebe8", fillOpacity:0.7 };
 const BLOCK_SELECTED = { color:"#ffd43b", weight:3, fillColor:"#ffd43b", fillOpacity:0.95 };
+const BLOCK_DIM = { color:"#d0d3cf", weight:1.5, fillColor:"#eef0ed", fillOpacity:0.45 };
+// 收藏板块：浅黄边框 + 极淡黄填充，区分而不刺眼
+const BLOCK_FAV = { color:"#ffd43b", weight:2.5, fillColor:"#fffbea", fillOpacity:0.95 };
 let selectedLayer = null;
 
 function styleFor(layer){
   if(layer === selectedLayer) return BLOCK_SELECTED;
-  return layer._disabled ? BLOCK_DISABLED : BLOCK_NORMAL;
+  if(layer._disabled) return BLOCK_DISABLED;
+  if(layer._fav) return BLOCK_FAV;
+  return BLOCK_NORMAL;
 }
 
-export function renderBlocks(geo, onClick){
+export function renderBlocks(geo, onClick, onDeselect){
   blockLayer = L.geoJSON(geo, {
     style: BLOCK_NORMAL,
     onEachFeature: (f, layer) => {
@@ -70,12 +75,17 @@ export function renderBlocks(geo, onClick){
       layer.on("mouseout",  () => {
         const el = layer.getElement();
         if(el) el.classList.remove("block-hover-glow");
-        if(!layer._disabled && layer!==selectedLayer) layer.setStyle(BLOCK_NORMAL);
+        if(!layer._disabled && layer!==selectedLayer) layer.setStyle(styleFor(layer));
       });
       layer.on("click", () => {
         if(layer._disabled) return;
-        selectBlock(layer);
-        onClick(f.properties.name);
+        if(layer===selectedLayer){        // 再次点击已选中 → 取消选择
+          deselectBlock();
+          onDeselect && onDeselect();
+        }else{
+          selectBlock(layer);
+          onClick(f.properties.name);
+        }
       });
     },
   }).addTo(map);
@@ -87,6 +97,31 @@ export function selectBlock(layer){
   selectedLayer = layer;
   if(prev && prev!==layer) prev.setStyle(styleFor(prev));  // 恢复上一个选中
   layer.setStyle(BLOCK_SELECTED);
+}
+
+export function deselectBlock(){
+  const prev = selectedLayer;
+  selectedLayer = null;
+  if(prev) prev.setStyle(styleFor(prev));
+}
+
+// 标记收藏板块（浅黄边框），并支持“只看收藏”淡化非收藏
+export function markFavBlocks(favBlocks, favOnly){
+  if(!blockLayer) return;
+  blockLayer.eachLayer(layer=>{
+    const name = layer.feature.properties.name;
+    layer._fav = favBlocks.includes(name);
+    const el = layer.getElement();
+    if(favOnly){
+      layer._disabled = !layer._fav;
+      layer.setStyle(layer._fav ? styleFor(layer) : BLOCK_DIM);
+      if(el) el.style.cursor = layer._fav ? "pointer" : "default";
+    }else{
+      layer._disabled = false;
+      layer.setStyle(styleFor(layer));
+      if(el) el.style.cursor = "pointer";
+    }
+  });
 }
 
 export function getBlockLayer(){ return blockLayer; }
