@@ -8,3 +8,5 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .panel-placeholder{color:#a9d9c3;font-size:14px;font-weight:600;margin-top:40px;text-align:center}
 /* 行政区标签 */
 .district-label{background:none;border:none;box-shadow:none;color:#a9d9c3;font-weight:700;font-size:13px;white-space:nowrap}
+/* 板块标签 */
+.block-label{background:none;border:none;box-shadow:none;color:#0f9d6f;font-weight:700;font-size:13px;white-space:nowrap}

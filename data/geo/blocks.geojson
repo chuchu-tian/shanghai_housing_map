@@ -1,0 +1,13 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type":"Feature", "properties":{"name":"苏河湾","district":"静安","ring":"in"},
+      "geometry":{"type":"Polygon","coordinates":[[[121.455,31.250],[121.475,31.250],[121.475,31.262],[121.455,31.262],[121.455,31.250]]]} },
+    { "type":"Feature", "properties":{"name":"古北","district":"长宁","ring":"mid"},
+      "geometry":{"type":"Polygon","coordinates":[[[121.395,31.195],[121.415,31.195],[121.415,31.210],[121.395,31.210],[121.395,31.195]]]} },
+    { "type":"Feature", "properties":{"name":"中山公园","district":"长宁","ring":"mid"},
+      "geometry":{"type":"Polygon","coordinates":[[[121.410,31.218],[121.430,31.218],[121.430,31.232],[121.410,31.232],[121.410,31.218]]]} },
+    { "type":"Feature", "properties":{"name":"长征","district":"普陀","ring":"out"},
+      "geometry":{"type":"Polygon","coordinates":[[[121.360,31.235],[121.385,31.235],[121.385,31.255],[121.360,31.255],[121.360,31.235]]]} }
+  ]
+}
