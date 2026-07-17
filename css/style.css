@@ -2,7 +2,11 @@
 html,body,#app{height:100%}
 body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 #app{display:grid;grid-template-columns:1fr 380px}
+#map-wrap{position:relative}
 #map{height:100%;background:linear-gradient(150deg,#fbfefc,#f2fbf6)}
+#filterbar{position:absolute;bottom:20px;left:20px;z-index:500;display:flex;gap:8px}
+#filterbar button{border:none;font-size:12px;padding:9px 16px;border-radius:999px;cursor:pointer;font-weight:700;background:#fff;color:#0f9d6f;box-shadow:0 3px 0 #cbeedd;font-family:inherit}
+#filterbar button.on{background:#12b886;color:#fff;box-shadow:0 3px 0 #0c8f6b}
 .leaflet-container{background:linear-gradient(150deg,#fbfefc,#f2fbf6)}
 #panel{padding:32px 26px;overflow-y:auto;background:#fff;color:#20323a;border-left:1px solid #eef1f3}
 .panel-placeholder{color:#a9d9c3;font-size:14px;font-weight:600;margin-top:40px;text-align:center}
@@ -10,6 +14,8 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .district-label{background:none;border:none;box-shadow:none;color:#a9d9c3;font-weight:700;font-size:13px;white-space:nowrap}
 /* 板块标签 */
 .block-label{background:none;border:none;box-shadow:none;color:#0f9d6f;font-weight:700;font-size:13px;white-space:nowrap}
+/* 悬停聚光光晕（淡；范围由 --glow 变量控制，随地图缩放联动）*/
+.block-hover-glow{filter:drop-shadow(0 0 calc(var(--glow,4px) * .8) rgba(255,193,7,.55)) drop-shadow(0 0 var(--glow,4px) rgba(255,193,7,.35));transition:filter .15s ease}
 
 /* 面板内容（果汁风格）*/
 .p-block{display:flex;align-items:baseline;gap:8px}

@@ -6,7 +6,18 @@ let blockLayer;
 export function initMap(){
   map = L.map("map", { zoomControl:true, attributionControl:false })
         .setView(SHANGHAI_CENTER, DEFAULT_ZOOM);
+  updateGlowScale();
+  map.on("zoomend", updateGlowScale);
   return map;
+}
+
+// 光晕范围随缩放联动：地图放大(zoom大)光晕大，缩小则小
+function updateGlowScale(){
+  const z = map.getZoom();
+  // zoom 9→约2px，13→约10px，线性映射，夹在 [1.5, 12]
+  const px = Math.max(1.5, Math.min(12, (z - 8) * 2));
+  const el = document.getElementById("map");
+  if(el) el.style.setProperty("--glow", px.toFixed(1) + "px");
 }
 
 export function renderDistricts(geo){
@@ -35,18 +46,62 @@ export function renderRings(geo){
   }).addTo(map);
 }
 
+const BLOCK_NORMAL = { color:"#b2ecd0", weight:2.5, fillColor:"#ffffff", fillOpacity:0.9 };
+const BLOCK_DISABLED = { color:"#d0d3cf", weight:2, fillColor:"#e9ebe8", fillOpacity:0.7 };
+const BLOCK_SELECTED = { color:"#ffd43b", weight:3, fillColor:"#ffd43b", fillOpacity:0.95 };
+let selectedLayer = null;
+
+function styleFor(layer){
+  if(layer === selectedLayer) return BLOCK_SELECTED;
+  return layer._disabled ? BLOCK_DISABLED : BLOCK_NORMAL;
+}
+
 export function renderBlocks(geo, onClick){
   blockLayer = L.geoJSON(geo, {
-    style: { color:"#b2ecd0", weight:2.5, fillColor:"#ffffff", fillOpacity:0.9 },
+    style: BLOCK_NORMAL,
     onEachFeature: (f, layer) => {
       layer.bindTooltip(f.properties.name, { permanent:true, direction:"center", className:"block-label" });
-      layer.on("mouseover", () => layer.setStyle({ fillColor:"#ffd43b", color:"#ffd43b", weight:3 }));
-      layer.on("mouseout",  () => blockLayer.resetStyle(layer));
-      layer.on("click", () => onClick(f.properties.name));
+      layer.on("mouseover", () => {
+        if(layer._disabled) return;
+        const el = layer.getElement();
+        if(el) el.classList.add("block-hover-glow");   // 聚光光晕
+        if(layer!==selectedLayer) layer.setStyle({ fillColor:"#ffe985", color:"#ffd43b", weight:3 });
+      });
+      layer.on("mouseout",  () => {
+        const el = layer.getElement();
+        if(el) el.classList.remove("block-hover-glow");
+        if(!layer._disabled && layer!==selectedLayer) layer.setStyle(BLOCK_NORMAL);
+      });
+      layer.on("click", () => {
+        if(layer._disabled) return;
+        selectBlock(layer);
+        onClick(f.properties.name);
+      });
     },
   }).addTo(map);
   return blockLayer;
 }
 
+export function selectBlock(layer){
+  const prev = selectedLayer;
+  selectedLayer = layer;
+  if(prev && prev!==layer) prev.setStyle(styleFor(prev));  // 恢复上一个选中
+  layer.setStyle(BLOCK_SELECTED);
+}
+
 export function getBlockLayer(){ return blockLayer; }
 export function getMap(){ return map; }
+
+export function applyBlockFilter(housing, filter){
+  if(!blockLayer) return;
+  blockLayer.eachLayer(layer=>{
+    const name = layer.feature.properties.name;
+    const data = housing.blocks[name];
+    const has = filter==="all" || (data && data.communities && data.communities.some(c=>c.property_type===filter));
+    layer._disabled = !has;
+    // 若当前选中的板块被筛选禁用，取消其选中态
+    if(!has && layer===selectedLayer) selectedLayer = null;
+    layer.setStyle(styleFor(layer));
+    if(layer.getElement()) layer.getElement().style.cursor = has ? "pointer" : "default";
+  });
+}
