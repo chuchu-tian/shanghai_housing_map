@@ -2,7 +2,20 @@
 import { loadJSON } from "./data.js";
 import { DATA } from "./config.js";
 let state = null;
-export async function loadProfiles(){ state = await loadJSON(DATA.profiles); return state; }
+
+// 是否有本地服务端可写（localhost + server.py）；静态部署时走 localStorage
+const HAS_SERVER = location.protocol !== "file:" &&
+  (location.hostname === "localhost" || location.hostname === "127.0.0.1");
+const LS_KEY = "shmap_profiles";
+
+export async function loadProfiles(){
+  if(!HAS_SERVER){
+    const cached = localStorage.getItem(LS_KEY);
+    if(cached){ try{ state = JSON.parse(cached); return state; }catch(_){} }
+  }
+  state = await loadJSON(DATA.profiles);   // 初始档案（服务端文件 / 站点自带）
+  return state;
+}
 export function getState(){ return state; }
 export function activeProfile(){ return state.profiles.find(p=>p.id===state.active); }
 export function isFav(kind, name){
@@ -30,9 +43,15 @@ export function togglePublish(name){
 }
 export function isPublished(name){ return (state.published||[]).includes(name); }
 export function setPublished(names){ state.published = [...names]; return save(); }
+
 async function save(){
-  await fetch("/api/profiles", {
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify(state),
-  });
+  if(HAS_SERVER){
+    await fetch("/api/profiles", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(state),
+    });
+  }else{
+    localStorage.setItem(LS_KEY, JSON.stringify(state));  // 静态部署：存浏览器本地
+  }
 }
+
