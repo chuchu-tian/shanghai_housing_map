@@ -1,3 +1,4 @@
 node_modules/
 .DS_Store
 data/*.tmp
+data/profiles.json

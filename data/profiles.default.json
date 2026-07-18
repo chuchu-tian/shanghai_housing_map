@@ -1,0 +1,8 @@
+{
+  "profiles": [
+    { "id": "user1", "name": "用户1", "blocks": [], "communities": [] },
+    { "id": "user2", "name": "用户2", "blocks": [], "communities": [] }
+  ],
+  "active": "user1",
+  "published": ["苏河湾", "古北"]
+}

@@ -13,7 +13,12 @@ export async function loadProfiles(){
     const cached = localStorage.getItem(LS_KEY);
     if(cached){ try{ state = JSON.parse(cached); return state; }catch(_){} }
   }
-  state = await loadJSON(DATA.profiles);   // 初始档案（服务端文件 / 站点自带）
+  // 优先读真实档案（本地/服务端存在）；静态站点上不存在时退回公开安全的默认档案
+  try{
+    state = await loadJSON(DATA.profiles);
+  }catch(_){
+    state = await loadJSON("data/profiles.default.json");
+  }
   return state;
 }
 export function getState(){ return state; }
