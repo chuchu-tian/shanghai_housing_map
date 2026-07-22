@@ -37,6 +37,10 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .edit-footer{margin-top:16px;display:flex;justify-content:flex-end}
 .edit-save{border:none;background:#12b886;color:#fff;border-radius:10px;padding:9px 22px;cursor:pointer;font-weight:800;font-family:inherit;font-size:14px}
 .edit-save:disabled{opacity:.6}
+/* 发布视图（家人访客）：隐藏编辑/发布/改名等维护控件 */
+.published-view .editbtn,
+.published-view #publishBtn,
+.published-view #renameBtn{display:none}
 /* 顶栏发布按钮 */
 #publishBtn{border:none;background:#eefaf3;color:#0f9d6f;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-family:inherit;font-size:12px}
 /* 发布管理弹窗 */

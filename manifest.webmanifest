@@ -1,0 +1,12 @@
+{
+  "name": "上海买房地图",
+  "short_name": "买房地图",
+  "description": "研究上海买房的交互式地图：板块、成交价、收藏，全家共享",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2fbf6",
+  "theme_color": "#12b886",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

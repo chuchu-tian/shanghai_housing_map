@@ -26,6 +26,13 @@ export function initPublishManager(blockNames){
   document.getElementById("publishClose").onclick = close;
   modal.onclick = (e)=>{ if(e.target===modal) close(); };  // 点遮罩关闭
 
+  // 复制“家人查看”链接（?view=published）
+  document.getElementById("pubShareLink").onclick = async()=>{
+    const link = `${location.origin}${location.pathname}?view=published`;
+    try{ await navigator.clipboard.writeText(link); alert("已复制家人查看链接：\n"+link); }
+    catch(_){ prompt("复制这个链接发给家人：", link); }
+  };
+
   document.getElementById("pubSelectAll").onclick = async()=>{
     for(const n of blockNames){ if(!isPublished(n)) await togglePublish(n); }
     renderList();

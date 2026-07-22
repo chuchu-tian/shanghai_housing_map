@@ -1,5 +1,5 @@
 // js/app.js
-import { initMap, renderDistricts, renderRings, renderBlocks, applyBlockFilter, markFavBlocks } from "./map.js";
+import { initMap, renderDistricts, renderRings, renderBlocks, applyBlockFilter, markFavBlocks, applyPublishView } from "./map.js";
 import { loadAll, blockData } from "./data.js";
 import { renderPanel, filterPanelList, currentBlockName, clearPanel } from "./panel.js";
 import { initFilter, getFilter } from "./filter.js";
@@ -62,6 +62,17 @@ async function main(){
     // 数据编辑
     initEditor(HOUSING, (editedName)=>{ rerenderPanel(); });
     document.addEventListener("edit-block", (e)=> openEditor(e.detail));
+
+    // 发布视图：分享给家人的链接 ?view=published，只显示已发布板块，并隐藏编辑/发布控件
+    const publishedView = new URLSearchParams(location.search).get("view") === "published";
+    if(publishedView){
+      const published = getState().published || [];
+      const applied = applyPublishView(published);
+      document.body.classList.add("published-view");   // CSS 隐藏编辑/发布按钮
+      if(applied && published.length){
+        // 视图默认聚焦到已发布板块
+      }
+    }
 
     window.__housing = housing;
   }catch(e){ console.error(e); alert("数据加载失败，请用本地服务器打开（server.py）"); }

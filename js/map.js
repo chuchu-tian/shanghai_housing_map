@@ -127,6 +127,22 @@ export function markFavBlocks(favBlocks, favOnly){
 export function getBlockLayer(){ return blockLayer; }
 export function getMap(){ return map; }
 
+// 发布视图：只显示已发布板块（用于分享给家人的链接 ?view=published）。
+// published 为空则不过滤（显示全部）。返回是否启用了过滤。
+export function applyPublishView(publishedList){
+  if(!blockLayer) return false;
+  if(!publishedList || !publishedList.length) return false;
+  blockLayer.eachLayer(layer=>{
+    const name = layer.feature.properties.name;
+    const shown = publishedList.includes(name);
+    layer._disabled = !shown;
+    const el = layer.getElement();
+    if(shown){ layer.setStyle(styleFor(layer)); if(el) el.style.cursor="pointer"; }
+    else{ layer.setStyle(BLOCK_DIM); if(el) el.style.cursor="default"; }
+  });
+  return true;
+}
+
 export function applyBlockFilter(housing, filter){
   if(!blockLayer) return;
   blockLayer.eachLayer(layer=>{
