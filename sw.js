@@ -1,6 +1,6 @@
 // sw.js —— 极简 Service Worker：缓存应用外壳，支持“添加到主屏幕”与离线打开。
 // 数据（收藏/房产）走网络（Supabase），不在此缓存，保证实时。
-const CACHE = "shmap-shell-v1";
+const CACHE = "shmap-shell-v2";
 const SHELL = [
   "./", "./index.html", "./css/style.css",
   "./js/app.js", "./js/config.js", "./js/data.js", "./js/map.js",

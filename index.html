@@ -75,6 +75,11 @@
   <script>
     if("serviceWorker" in navigator){
       window.addEventListener("load", ()=> navigator.serviceWorker.register("sw.js").catch(()=>{}));
+      // 新版本接管时自动刷新一次，避免旧缓存卡住更新
+      let reloaded = false;
+      navigator.serviceWorker.addEventListener("controllerchange", ()=>{
+        if(reloaded) return; reloaded = true; location.reload();
+      });
     }
   </script>
 </body>
