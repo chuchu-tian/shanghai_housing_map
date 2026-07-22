@@ -48,6 +48,24 @@
       <ul id="publishList"></ul>
     </div>
   </div>
+  <div id="editModal" class="modal-hidden">
+    <div class="modal-card modal-wide">
+      <div class="modal-head">
+        <span id="editTitle">编辑板块</span>
+        <button id="editClose">✕</button>
+      </div>
+      <div class="edit-grid">
+        <label>二手成交均价<input id="f_resale" type="number" placeholder="元/㎡"></label>
+        <label>新房均价<input id="f_new" type="number" placeholder="元/㎡"></label>
+      </div>
+      <label class="edit-full">优点（逗号分隔）<input id="f_pros" placeholder="如：学区好，商业成熟"></label>
+      <label class="edit-full">缺点（逗号分隔）<input id="f_cons" placeholder="如：房龄老，单价高"></label>
+      <div class="edit-sub">小区列表</div>
+      <ul id="editCommList"></ul>
+      <button id="editAddComm" class="edit-add">＋ 添加小区</button>
+      <div class="edit-footer"><button id="editSave" class="edit-save">保存</button></div>
+    </div>
+  </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>

@@ -19,6 +19,24 @@ body{font-family:"Baloo 2","Noto Sans SC",sans-serif}
 .starbtn{cursor:pointer;color:#dfe6e2;font-size:16px;background:none;border:none;padding:0 2px;line-height:1}
 .starbtn.on{color:#ff922b}
 .clist li.fav{border-left:3px solid #ff922b}
+/* 编辑按钮 */
+.editbtn{margin-left:auto;border:none;background:#12b886;color:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:700;font-family:inherit;font-size:12px}
+.p-block{display:flex;align-items:center;gap:8px}
+/* 编辑弹窗 */
+.modal-wide{width:420px !important}
+.edit-grid{display:flex;gap:12px;margin-top:6px}
+.edit-grid label,.edit-full{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:700;color:#7cc9a5;flex:1}
+.edit-full{margin-top:12px}
+.edit-grid input,.edit-full input{font-family:inherit;font-size:13px;padding:8px 10px;border:2px solid #e6f2ec;border-radius:8px;color:#20323a}
+.edit-sub{font-size:13px;font-weight:800;color:#0f9d6f;margin:16px 0 8px}
+#editCommList{list-style:none;display:flex;flex-direction:column;gap:8px}
+.edit-comm{display:grid;grid-template-columns:1fr 64px 1fr 64px 24px;gap:6px;align-items:center}
+.edit-comm input,.edit-comm select{font-family:inherit;font-size:12px;padding:6px 7px;border:1.5px solid #e6f2ec;border-radius:7px;min-width:0}
+.edit-comm .c-del{border:none;background:#ffe3e3;color:#e03131;border-radius:6px;cursor:pointer;font-weight:700;padding:6px 0}
+.edit-add{margin-top:10px;border:2px dashed #b2ecd0;background:#f4fbf7;color:#0f9d6f;border-radius:8px;padding:8px;width:100%;cursor:pointer;font-weight:700;font-family:inherit}
+.edit-footer{margin-top:16px;display:flex;justify-content:flex-end}
+.edit-save{border:none;background:#12b886;color:#fff;border-radius:10px;padding:9px 22px;cursor:pointer;font-weight:800;font-family:inherit;font-size:14px}
+.edit-save:disabled{opacity:.6}
 /* 顶栏发布按钮 */
 #publishBtn{border:none;background:#eefaf3;color:#0f9d6f;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-family:inherit;font-size:12px}
 /* 发布管理弹窗 */

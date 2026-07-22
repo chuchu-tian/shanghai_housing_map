@@ -5,6 +5,7 @@ import { renderPanel, filterPanelList, currentBlockName, clearPanel } from "./pa
 import { initFilter, getFilter } from "./filter.js";
 import { loadProfiles, getState, activeProfile, switchProfile, renameProfile } from "./favorites.js";
 import { initPublishManager } from "./publish.js";
+import { initEditor, openEditor } from "./editor.js";
 
 let HOUSING = null;
 let favOnly = false;
@@ -57,6 +58,11 @@ async function main(){
 
     markFavBlocks(activeProfile().blocks, favOnly);
     initPublishManager(blocks.features.map(f=>f.properties.name));
+
+    // 数据编辑
+    initEditor(HOUSING, (editedName)=>{ rerenderPanel(); });
+    document.addEventListener("edit-block", (e)=> openEditor(e.detail));
+
     window.__housing = housing;
   }catch(e){ console.error(e); alert("数据加载失败，请用本地服务器打开（server.py）"); }
 }

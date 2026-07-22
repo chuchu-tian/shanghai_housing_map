@@ -29,7 +29,8 @@ export function renderPanel(name, data, rerender){
   document.getElementById("panel").classList.remove("empty");
   if(!data){
     body.innerHTML = `<div class="p-block"><span class="p-name">${name}</span>
-      <button class="starbtn ${isFav('block',name)?'on':''}" data-fav-block="${name}">★</button></div>
+      <button class="starbtn ${isFav('block',name)?'on':''}" data-fav-block="${name}">★</button>
+      <button class="editbtn" data-edit="${name}">编辑</button></div>
       <div class="p-sub">暂无数据</div>`;
     bindStars(rerender);
     return;
@@ -40,7 +41,8 @@ export function renderPanel(name, data, rerender){
       <span class="rt">${priceText(c)}${ageText(c)?" · "+ageText(c):""}</span></li>`;
   body.innerHTML = `
     <div class="p-block"><span class="p-name">${name}</span>
-      <button class="starbtn ${isFav('block',name)?'on':''}" data-fav-block="${name}">★</button></div>
+      <button class="starbtn ${isFav('block',name)?'on':''}" data-fav-block="${name}">★</button>
+      <button class="editbtn" data-edit="${name}">编辑</button></div>
     <div class="p-sub">${(data.pros&&data.pros[0])||""}</div>
     <div class="price-row">
       <div class="price-box resale"><div class="lbl">二手成交均价</div><div class="val">${money(data.resale_avg_price)}</div></div>
@@ -65,6 +67,8 @@ function bindStars(rerender){
     b.onclick = async(e)=>{ e.stopPropagation(); await toggleFav("block", b.dataset.favBlock); rerender&&rerender(); });
   document.querySelectorAll("[data-fav-comm]").forEach(b=>
     b.onclick = async(e)=>{ e.stopPropagation(); await toggleFav("community", b.dataset.favComm); rerender&&rerender(); });
+  document.querySelectorAll("[data-edit]").forEach(b=>
+    b.onclick = (e)=>{ e.stopPropagation(); document.dispatchEvent(new CustomEvent("edit-block", { detail: b.dataset.edit })); });
 }
 
 export function filterPanelList(type){

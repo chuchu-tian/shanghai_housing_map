@@ -4,28 +4,35 @@ import http.server, socketserver, json, os, tempfile
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PROFILES = os.path.join(ROOT, "data", "profiles.json")
+HOUSING = os.path.join(ROOT, "data", "housing.json")
 PORT = 8000
+
+def atomic_write(path, payload):
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+    except Exception:
+        if os.path.exists(tmp): os.remove(tmp)
+        raise
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **k):
         super().__init__(*a, directory=ROOT, **k)
 
     def do_POST(self):
-        if self.path != "/api/profiles":
+        target = {"/api/profiles": PROFILES, "/api/housing": HOUSING}.get(self.path)
+        if not target:
             self.send_error(404); return
         length = int(self.headers.get("Content-Length", 0))
         try:
             payload = json.loads(self.rfile.read(length) or b"{}")
         except json.JSONDecodeError:
             self.send_error(400, "bad json"); return
-        # 原子写：先写临时文件，再替换，避免写一半损坏
-        fd, tmp = tempfile.mkstemp(dir=os.path.dirname(PROFILES))
         try:
-            with os.fdopen(fd, "w", encoding="utf-8") as f:
-                json.dump(payload, f, ensure_ascii=False, indent=2)
-            os.replace(tmp, PROFILES)
+            atomic_write(target, payload)   # 原子写，避免写一半损坏
         except Exception:
-            if os.path.exists(tmp): os.remove(tmp)
             self.send_error(500, "write failed"); return
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
